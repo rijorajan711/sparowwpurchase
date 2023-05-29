@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public/assets1')));
 
-app.use(session({secret:"key",cookie:{maxAge:6000000}}));
+app.use(session({secret:"key",cookie:{maxAge:6000000},resave:false,saveUninitialized:true}));
 
 // app.use(cors())
 app.use(expressLayouts);

@@ -25,9 +25,13 @@ var instance = new Razorpay({
 module.exports = {
   homeproduct: () => {
     return new Promise(async (resolve, reject) => {
-      const userproduct = await productModel.find();
-
-      resolve(userproduct);
+      const userproduct = await productModel.find({category:"Iphone"});
+      const earbuds = await productModel.find({category:"earbuds"});
+       let productdata={
+        userproduct:userproduct,
+        earbuds:earbuds
+       }
+      resolve(productdata);
     });
   },
   signupinsertion: (userdata) => {
@@ -235,7 +239,7 @@ module.exports = {
   Categoryboxed: (lim) => {
     return new Promise(async (resolve, reject) => {
       const page = 1;
-      const limit = 1;
+      const limit = 2;
 
       let totalproduct = await productModel.countDocuments();
       let data = await productModel.find().skip(0).limit(limit);
@@ -486,7 +490,7 @@ module.exports = {
       let pagee = parseInt(page) || 1;
 
       let pge = pagee + 1;
-      const limit = 1;
+      const limit = 2;
       const totalCount = await productModel.countDocuments();
       let totalpage = totalCount / limit;
 
@@ -505,7 +509,7 @@ module.exports = {
   Previouspage: (page) => {
     return new Promise(async (resolve, reject) => {
       if (page < 1 || page == 1) {
-        const limit = 1;
+        const limit = 2;
 
         let data = await productModel.find().skip(0).limit(limit);
         let datas = {

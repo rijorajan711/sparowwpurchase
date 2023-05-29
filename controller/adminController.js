@@ -58,7 +58,7 @@ module.exports = {
              return file.category
          })
 
-    res.render("admin/addproduct", { layout,Datacategory });
+    res.render("admin/addproduct", {layout,Datacategory });
   },
 
   addproductsubmit: (req, res) => {

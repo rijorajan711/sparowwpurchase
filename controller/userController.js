@@ -35,10 +35,13 @@ const userhelper = require("../helpers/userhelper");
 
 module.exports = {
   home: (req, res, next) => {
-    homeproduct().then((datas) => {
+    homeproduct().then((data) => {
+      let datas=data.userproduct
+      let earbuds=data.earbuds
+
       var user = req.session.user;
       console.log("kooooooooooooooooooi", datas);
-      res.render("user/home", { user, datas });
+      res.render("user/home", { user, datas,earbuds });
     });
   },
 
@@ -47,6 +50,9 @@ module.exports = {
       var user = req.session.user;
       if (user) {
         next();
+      }
+      else{
+        res.render("user/signup")
       }
     
     });
@@ -120,16 +126,22 @@ module.exports = {
   },
   addtocart: (req, res) => {
     var proid = req.body.product;
-    var userid = req.session.user._id;
-    console.log("maaaaaaaaaaaaaaaai", proid);
+    var userid = req.session.user;
+   if(userid){
+     console.log("maaaaaaaaaaaaaaaai", proid);
     Addtocart(userid, proid);
-    res.json({status:true});
+    res.json({added:true});
+   }
+   else{
+
+    res.json({added:false})
+   }
   },
   getcartproduct: (req, res) => {
     let user = req.session.user;
     let userid = req.session.user._id;
-
-    Getcartproduct(userid).then((datas) => {
+     console.log("userid   000",userid);
+       Getcartproduct(userid).then((datas) => {
       const total = datas.reduce((total, data) => {
         return total + data.productid.price * data.quantity;
       }, 0);
@@ -141,6 +153,11 @@ module.exports = {
     }).catch(()=>{
            res.render("user/cartempty",{user})
     })
+    
+  
+     
+    
+   
   },
   changeproductquantity: (req, res) => {
     let userid = req.session.user._id;
@@ -182,8 +199,8 @@ module.exports = {
     let proid = req.params.id;
     let user = req.session.user;
     Viewproduct(proid).then((datas) => {
-      console.log("paniyaaaaaaaaaaaaaaaaam", datas);
-      res.render("user/viewproduct", { datas, user });
+      console.log("paniyam", datas);
+      res.render("user/viewproduct", {datas, user });
     });
   },
   adresssubmition: (req, res) => {
@@ -351,5 +368,12 @@ module.exports = {
     console.log("chhhhhhhhhhhhhhhhhhhhhhh", userid);
     Wishlistproductremove(proid, userid,);
     res.redirect("/wishlist");
+  },
+  contact:(req,res)=>{
+    res.render("user/contact")
+  },
+  notsignup:(req,res)=>{
+    res.render("user/signup")
   }
+ 
 };
