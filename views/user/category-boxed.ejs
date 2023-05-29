@@ -60,12 +60,12 @@
                                             </a>
     
                                             <div class="product-action-vertical">
-                                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                                <a onclick="addtowishlist('<%= data._id %>')" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
                                             </div><!-- End .product-action -->
     
-                                            <div class="product-action action-icon-top">
-                                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                                                <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
+                                            <div class="product-action action-icon-top">  
+                                                <a class="btn-product btn-cart" onclick="addtocartonclick('<%= data._id %>')"><span>add to cart</span></a>
+                                                <a href="/viewproduct<%= data._id %>" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
                                                 <a href="#" class="btn-product btn-compare" title="Compare"><span>compare</span></a>
                                             </div><!-- End .product-action -->
                                         </figure><!-- End .product-media -->
@@ -738,4 +738,80 @@
             })
         })
     }
+
+    let addtocartonclick = (proid) => {
+        $.ajax({
+            url: "/addToCart",
+            data: {
+                product: proid
+            },
+            method: 'post',
+            success: (response) => {
+                
+                if (response.added) {
+                   
+                    Toastify({
+          text: "your product added to cart",
+          duration: 3000,
+          gravity: "bottom",
+          position: "center",  
+          style: {
+              background: '#333333',
+             
+          },
+     }).showToast();
+                     
+                }
+                else{
+                        location.href="/notsignup"
+                    }
+                }
+            }
+        )
+
+    }
+    let addtowishlist  = (proid) => {
+        $.ajax({
+            url: "/addTowishlist",
+            data: {
+                product: proid
+            },
+            method: 'post',
+            success: (response) => {
+                if(response.status){
+                    Toastify({
+          text: "your product added to wishlist",
+          duration: 3000,
+          gravity: "bottom",
+          position: "center",  
+          style: {
+              background: '#333333',
+             
+          },
+     }).showToast();
+                } 
+                else if(response.nouser){
+                            location.href="/notsignup"
+                }     
+                else{
+                    Toastify({
+          text: "product already exist",
+          duration: 3000,
+          gravity: "bottom",
+          position: "center",  
+          style: {
+              background: '#333333',
+             
+          },
+     }).showToast();
+                }
+        
+              
+            }
+        })
+
+    }
+
+
+    
  </script>

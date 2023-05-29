@@ -167,10 +167,12 @@ module.exports = {
   },
   categoryboxed: (req, res) => {
     Categoryboxed().then((data) => {
+      let user=req.session.user
       let datas=data.data
       let page=data.page
-      let totalpage=1
-      res.render("user/category-boxed", { datas,page,totalpage});
+  
+      let totalpage=data.totalpage
+      res.render("user/category-boxed", { user,datas,page,totalpage});
     });
   },
   cartproductremove: (req, res) => {
@@ -354,12 +356,19 @@ module.exports = {
   },
   addtowishlist:(req,res)=>{
     var proid = req.body.product;
-    var userid = req.session.user._id;
-    Addtowishlist(proid,userid).then((response)=>{
-      res.json({status:true})
-    }).catch((response)=>{
-      res.json({status:false})
-    })
+    var user=req.session.user
+    if(user){
+
+      var userid = req.session.user._id;
+      Addtowishlist(proid,userid).then((response)=>{
+        res.json({status:true})
+      }).catch((response)=>{
+        res.json({status:false})
+      })
+    }
+    else{
+      res.json({nouser:true})
+    }
   },
   wishlistproductremove:(req,res)=>{
     let userid = req.session.user._id;

@@ -242,10 +242,12 @@ module.exports = {
       const limit = 2;
 
       let totalproduct = await productModel.countDocuments();
+      let totalpage=totalproduct/limit
       let data = await productModel.find().skip(0).limit(limit);
       let datas = {
         data: data,
         page: 1,
+        totalpage:totalpage
       };
       resolve(datas);
     });
