@@ -98,7 +98,7 @@ module.exports = {
   Postaddcategory: (body) => {
     return new Promise(async (resolve, reject) => {
       const category = body.category;
-      console.log("categoryyyyyyyyyyy", category);
+     
       const existCategory = await categoryModel.findOne({ category: category });
       if (!existCategory) {
         const categorySchema = new categoryModel({
@@ -129,7 +129,7 @@ module.exports = {
   Newcoupon:()=>{
     return new Promise(async(resolve, reject) => {
       let  coupondetail= await couponModel.find()
-           console.log("cooooopppen",coupondetail);
+     
             resolve(coupondetail)
     })
   },
@@ -160,7 +160,7 @@ module.exports = {
   },
   Updatestatus:(orderid,status)=>{
     return new Promise(async(resolve, reject) => {
-      console.log("chaaaaaaaaaaaaaaaaaaaaaaaa",orderid);
+    
        await orderModel.updateOne({_id:orderid},{"deliveredto.status":status})
        let updateddorder=  await orderModel.findOne({_id:orderid})
        let updatedstatus=updateddorder.deliveredto.status

@@ -40,7 +40,7 @@ module.exports = {
       let earbuds=data.earbuds
 
       var user = req.session.user;
-      console.log("kooooooooooooooooooi", datas);
+
       res.render("user/home", { user, datas,earbuds });
     });
   },
@@ -83,7 +83,7 @@ module.exports = {
     const email = req.query.email;
     var password = req.query.password;
     var mobile = req.query.mobile;
-    console.log("passssssed", mobile);
+   
     const secret = "mysecreatkey";
 
     jwt.verify(token, secret, function (err, decoded) {
@@ -128,7 +128,7 @@ module.exports = {
     var proid = req.body.product;
     var userid = req.session.user;
    if(userid){
-     console.log("maaaaaaaaaaaaaaaai", proid);
+    
     Addtocart(userid, proid);
     res.json({added:true});
    }
@@ -140,12 +140,11 @@ module.exports = {
   getcartproduct: (req, res) => {
     let user = req.session.user;
     let userid = req.session.user._id;
-     console.log("userid   000",userid);
        Getcartproduct(userid).then((datas) => {
       const total = datas.reduce((total, data) => {
         return total + data.productid.price * data.quantity;
       }, 0);
-      console.log(total, "total");
+ 
       datas.total = total;
       
         res.render("user/cart", { user, datas });
@@ -178,7 +177,7 @@ module.exports = {
   cartproductremove: (req, res) => {
     let userid = req.session.user._id;
     const removepro = req.params.id;
-    console.log("chhhhhhhhhhhhhhhhhhhhhhh", userid);
+ 
     Cartproductremove(removepro, userid,);
     res.redirect("/cart");
   },
@@ -187,7 +186,7 @@ module.exports = {
     Checkoutpage(user._id).then((datas) => {
       let adresses = datas.adress;
       let data = datas.productotal;
-      console.log("adresssssssssss", adresses);
+
       res.render("user/checkout", { user, data, adresses });
     });
   },
@@ -201,15 +200,15 @@ module.exports = {
     let proid = req.params.id;
     let user = req.session.user;
     Viewproduct(proid).then((datas) => {
-      console.log("paniyam", datas);
+     
       res.render("user/viewproduct", {datas, user });
     });
   },
   adresssubmition: (req, res) => {
-    console.log("thathamma");
+   
     Adresssubmition(req.body).then((response) => {
       if (response) {
-        console.log("chatttambbbi");
+      
         res.redirect("/Adress");
       }
     });
@@ -222,7 +221,7 @@ module.exports = {
   },
   makedefaultadress: (req, res) => {
     let adressid = req.body.id;
-    console.log("nthooooooooooo id", adressid);
+  
     Makedefaultadress(adressid).then((data) => {
       res.json({ status: true });
     });
@@ -243,16 +242,16 @@ module.exports = {
     let body = req.body;
     let userid = req.session.user._id;
 
-    console.log("bodyyyyyyyyyyyyyyyyyy", body.paymentmethod);
+
     Checkoutformdata(body, userid).then((data) => {
-      console.log("toitotoooooooooo",data);
+  
       let orderid = data._id;
       let total = data.deliveredto.total;
       if (body.paymentmethod == "COD") {
         res.json({ codStatus: true });
       } else {
         generaterazorpay(orderid, total).then((response) => {
-          console.log("this issssssssssss your rercept", response);
+       
           res.json(response);
         });
       }
@@ -274,14 +273,14 @@ module.exports = {
         return obj;
       });
 
-      console.log("vieeeews oeredwr", datas);
+     ;
 
       res.render("user/vieworder", { maporder, user });
     });
   },
   ordercancel: (req, res) => {
     let orderid = req.body;
-    // console.log("orrrrrrrrrrrrder idddddddddd",orderid);
+
 
     Ordercancel(req.body.orderid).then((data) => {
       res.json(data);
@@ -315,15 +314,14 @@ module.exports = {
         })
   },
   nextpage:(req,res)=>{
-    console.log("updataaaaaeeeeeeeeeeee",req.params.page);
+  
          let page=req.params.page
          Nextpage(page).then((data)=>{
            let datas=data.limitdata
            let page=data.pagenum
            let totalpage=data.totalpage
-           console.log("dataaaaaa",datas);
-           console.log("pageeeeeeeee",page);
            res.render("user/category-boxed", { datas,page,totalpage })
+         
       }
       )
 
@@ -347,7 +345,7 @@ module.exports = {
   wishlist:(req,res)=>{
     let userid=req.session.user._id
     Wishlist(userid).then((datas)=>{
-      console.log("naaaaaaaaaanamaaayi",datas);
+   
        res.render("user/wishlist",{datas})
     }).catch(()=>{
         res.redirect("/")
@@ -373,8 +371,8 @@ module.exports = {
   wishlistproductremove:(req,res)=>{
     let userid = req.session.user._id;
     const proid= req.params.id;
-    console.log("chhhhhhhhhhhhhhhhhhhhhhh",proid);
-    console.log("chhhhhhhhhhhhhhhhhhhhhhh", userid);
+
+    
     Wishlistproductremove(proid, userid,);
     res.redirect("/wishlist");
   },

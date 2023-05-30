@@ -85,7 +85,7 @@
    </div>
    <script>
         function ordercancel(orderid,date){
-           console.log("dddddddate",date);
+           
          $.ajax({
            
            url:"/ordercancel",
@@ -95,7 +95,7 @@
            method:"post",
            success:((response)=>{
                  if(response){
-                  console.log("resssponse",response);
+                  
                   document.getElementById(orderid).innerText=response
                   $('#'+date).hide();
                  }
@@ -115,7 +115,7 @@
            method:"post",
            success:((response)=>{
                  if(response){
-                  console.log("resssponse",response);
+                 
                   document.getElementById(orderid).innerText=response
                   $('#'+buttonid).hide();
                  }

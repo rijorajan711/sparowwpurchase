@@ -93,7 +93,7 @@ module.exports = {
             }
           });
       } else {
-        console.log("there is no user");
+        
         resolve({ loginStatus: false });
       }
     });
@@ -107,12 +107,12 @@ module.exports = {
         const authToken = "36337da80591e388aff83828a01f8ca0";
         const client = require("twilio")(accountSid, authToken);
         const phoneNumber = `+${Userr.mobile}`;
-        console.log("phone number isassssssssss", phoneNumber);
+    
 
         const otp = Math.floor(1000 + Math.random() * 9000);
         const message = `Your OTP code is ${otp}.`;
         global.OTP = otp;
-        console.log(global.OTP, "lll");
+ 
 
         client.messages
           .create({
@@ -132,8 +132,7 @@ module.exports = {
       var Userr = global.Userr;
       const otp = data.otp;
       const storedotp = global.OTP;
-      console.log("otp========", otp);
-      console.log("storedotp========", storedotp);
+ 
 
       if (storedotp == otp) {
         resolve(Userr);
@@ -215,7 +214,7 @@ module.exports = {
       } else {
         let total = 0;
 
-        console.log("entered to else");
+      
         let productsprice = (quantity + count) * price;
         let product = await addcartModel.updateOne(
           { "cartproductsids.productid": productid },
@@ -285,7 +284,7 @@ module.exports = {
     });
   },
   Adresssubmition: (reqdata) => {
-    console.log("thagaraaaaa", reqdata);
+    
     return new Promise(async (resolve, reject) => {
       let adressmodel = new addressModel({
         fname: reqdata.fname,
@@ -334,8 +333,7 @@ module.exports = {
     
       if (couponoffer.expiredate > datee) {
         let percentage = (total * couponoffer.percentage) / 100;
-        console.log("thhhhhhhhhhhhhhhhna",datee);
-        console.log("dahtaaaaaaaaaaaaaaa",couponoffer.expiredate);
+       
         if (percentage < couponoffer.maxoff) {
           let subtotal = total - percentage;
 
@@ -382,7 +380,7 @@ module.exports = {
         return obj;
       });
 
-      console.log(total);
+     
       const ordermodel = new orderModel({
         deliveredto: {
           userid: userid,
@@ -411,7 +409,7 @@ module.exports = {
   Vieworder: () => {
     return new Promise(async (resolve, reject) => {
       let order = await orderModel.find();
-      console.log("updateeeeeeeeeeeeeee", order);
+      
       resolve(order);
     });
   },
@@ -447,14 +445,14 @@ module.exports = {
         receipt: "" + orderid,
       };
       instance.orders.create(options, function (err, order) {
-        console.log("this issssssssssss your rercept", order);
+      
         resolve(order);
       });
     });
   },
   VerifyPayment: (detail) => {
     return new Promise((resolve, reject) => {
-      console.log("cryyyyyyyyyyyypto ", detail);
+    
       const crypto = require("crypto");
       let hmac = crypto.createHmac("sha256", "ApWG6KNV1cxyX9H3WhnNH15h");
       hmac.update(
@@ -471,7 +469,7 @@ module.exports = {
     });
   },
   changePaymentStatus: (orderid) => {
-    console.log("bbbbbbbbbbbbb", orderid);
+
     return new Promise(async (resolve, reject) => {
       await orderModel
         .updateOne(
@@ -541,7 +539,7 @@ module.exports = {
   },
   Wishlist:(userid)=>{
     return new Promise(async(resolve, reject) => {
-          console.log("USERID",userid);
+    
          let wishlistdata=await wishlistModel.findOne({userid:userid}).populate("wishlistproductsids.productid")
         
          if(wishlistdata){
@@ -589,8 +587,7 @@ module.exports = {
 
   },
   Wishlistproductremove: (proid, userid) => {
-    console.log("chhhhhhhhhhhhhhhhhhhhhhh", userid);
-    console.log("chhhhhhhhhhhhhhhhhhhhhhh", proid);
+    
     return new Promise(async (resolve, reject) => {
       await wishlistModel.updateOne(
         { userid: userid, "wishlistproductsids.productid": proid },
