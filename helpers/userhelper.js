@@ -18,8 +18,8 @@ const { addproduct } = require("./producthelper");
 const { log } = require("console");
 
 var instance = new Razorpay({
-  key_id: "rzp_test_9xNHk9Ao1Ya9m0",
-  key_secret: "ApWG6KNV1cxyX9H3WhnNH15h",
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
 module.exports = {
@@ -103,8 +103,8 @@ module.exports = {
       let Userr = await userModel.findOne({ mobile: data.mobile });
       global.Userr = Userr;
       if (Userr) {
-        const accountSid = "AC01d3f44e63e6b2f17f820555dab8bae0";
-        const authToken = "36337da80591e388aff83828a01f8ca0";
+        const accountSid = process.env.TWILIO_accountSid;
+        const authToken = process.env.TWILIO_authToken;
         const client = require("twilio")(accountSid, authToken);
         const phoneNumber = `+${Userr.mobile}`;
     
